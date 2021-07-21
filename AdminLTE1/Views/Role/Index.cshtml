@@ -1,0 +1,45 @@
+﻿@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "ListRole";
+    //Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+<h1>Role Manager</h1>
+<form method="post" asp-action="AddRole" asp-controller="Role">
+    <div class="input-group">
+        <input name="roleName" class="form-control w-25">
+        <span class="input-group-btn">
+            <button class="btn btn-info">Add New Role</button>
+        </span>
+    </div>
+</form>
+<table class="table table-striped">
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    User ID : @role.Id
+                </div>
+                <div class="card-body">
+                    User ID : @role.Name
+                </div>
+            </div>
+        }
+
+
+
+    </tbody>
+</table>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#MyDataTable").DataTable();
+        }
+        )
+    </script>
+}

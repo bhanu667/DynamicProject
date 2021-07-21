@@ -1,0 +1,69 @@
+﻿@model IEnumerable<AdminLTE1.ViewModels.MenuViewModel>
+@{
+    ViewBag.Title = "All Menu";
+}
+@if (ViewBag.successMessage != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> @ViewBag.successMessage
+    </div>
+}
+@if (Model.Any())
+{
+  
+            <div class="card-body p-0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Name</th>
+                            <th>Path</th>
+                            <th>ParentId</th>
+                            <th>MenuLevel</th>
+                            <th>MenuGrpId</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var menu in Model)
+                        {
+                            <tr>
+                                <td>@menu.Id</td>
+                                <td>@menu.Name</td>
+                                <td>@menu.Path</td>
+                                <td>@menu.ParentId</td>
+                                <td>@menu.MenuLevel</td>
+                                <td>@menu.MenuGrpId</td>
+                                <td><a href="@Url.Action("EditMenu","Permission",new { Id=menu.Id})" class="btn btn-primary">Edit</a></td>
+                                <td><a href="@Url.Action("DeleteMenu","Permission",new {Id=menu.Id})" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+    
+
+
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No menu created yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Use the button below to create a menu
+            </h5>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="Permission" asp-action="CreateMenu">
+                Create Menu
+            </a>
+        </div>
+    </div>
+}

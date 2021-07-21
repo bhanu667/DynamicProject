@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+    if (User.Identity.IsAuthenticated)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_NormalLayout.cshtml";
+    }
+}
+<h1>@ViewData["Title"]</h1>
+
+<br />
+<br />
+
+<p>Email:- bhanuprakash.bagra@dotsquares.com</p>
+<p>Contact No.:-7976500351, 9782415509 </p>
+
+
