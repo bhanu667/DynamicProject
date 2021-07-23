@@ -19,6 +19,20 @@ namespace AdminLTE1.Controllers
         {
             this._context = context;
         }
+
+        public IActionResult Index()
+        {
+            var role = (from r in _context.Roles
+                        join per in _context.MenuPermissions
+                        on r.Id equals Convert.ToString(per.RoleId)
+                        select new EditRoleViewModel
+                        {
+                            RoleName = r.Name,
+                            Id = r.Id
+                        }).GroupBy(n => new { n.Id, n.RoleName }).Select(g => g.FirstOrDefault()).ToList();
+
+            return View(role);
+        }
         public IActionResult GetMenus()
         {
             List<MenuViewModel> lstmodel = new List<MenuViewModel>();
