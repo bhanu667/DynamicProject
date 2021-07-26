@@ -70,10 +70,7 @@ namespace AdminLTE1.Controllers
 
             if (model != null)
             {
-                var assigned = "";
-                var alreadyexist = "";
-
-                var existing = _context.MenuPermissions.Where(R => R.RoleId == model.FirstOrDefault().RoleId).ToList();
+                                var existing = _context.MenuPermissions.Where(R => R.RoleId == model.FirstOrDefault().RoleId).ToList();
                 if (existing != null && existing.Count() > 0)
 
                 {
@@ -91,8 +88,8 @@ namespace AdminLTE1.Controllers
                         mnp.RoleId = item.RoleId;
                         _context.MenuPermissions.Add(mnp);
 
-                        var permissionName = _context.MenuItems.Where(a => a.Id == item.MenuId).FirstOrDefault().Name;
-                        assigned += permissionName + "\n";
+                        //var permissionName = _context.MenuItems.Where(a => a.Id == item.MenuId).FirstOrDefault().Name;
+                        //assigned += permissionName + "\n";
 
                         _context.SaveChanges();
                     }
@@ -101,7 +98,40 @@ namespace AdminLTE1.Controllers
                     return Json("Saved Successfully!");
                 }
 
-               
+                //var assigned = "";
+                //var alreadyexist = "";
+
+
+
+                //foreach (var item in model)
+                //{
+                //    var existing = _context.MenuPermissions.Where(R => R.RoleId == item.RoleId).ToList();
+                //    if (existing != null && existing.Where(x => x.MenuId == item.MenuId).Count() > 0)
+                //    {
+                //        //return Json("Permisiion Already Assigned");
+                //        var permissionName = _context.MenuItems.Where(a => a.Id == item.MenuId).FirstOrDefault().Name;
+                //        alreadyexist += permissionName+"\n";
+                //    }
+                //    else
+                //    {
+
+                //        MenuPermission mnp = new MenuPermission();
+                //        mnp.MenuId = item.MenuId;
+                //        mnp.PermissionId = Guid.NewGuid();
+                //        mnp.RoleId = item.RoleId;
+                //        _context.MenuPermissions.Add(mnp);
+
+                //        var permissionName = _context.MenuItems.Where(a => a.Id == item.MenuId).FirstOrDefault().Name;
+                //        assigned += permissionName + "\n";
+
+                //        _context.SaveChanges();
+
+                //        //return Json("Saved Successfully!");
+                //    }
+                //}
+
+                //return Json("Assigned permissions \n" + assigned+"alreadyexist permission \n"+alreadyexist);
+
             }
             return Json("NoData");
 
