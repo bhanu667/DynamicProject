@@ -33,6 +33,71 @@ namespace AdminLTE1.Controllers
 
             return View(role);
         }
+
+        [HttpGet]
+        public IActionResult CreatePermission(Guid RoleId)
+        {
+            List<PermissionViewModel> lstPermission = new List<PermissionViewModel>();
+
+            var result = (from Menus in _context.MenuItems
+                          join Permissions in _context.MenuPermissions.Where(r => r.RoleId == RoleId)
+                          on Menus.Id equals Permissions.MenuId into menuPerm
+                          from perm in menuPerm.DefaultIfEmpty()
+                          select new PermissionViewModel
+                          {
+                              Id = Menus.Id,
+                              Path = Menus.Path,
+                              Name = Menus.Name,
+                              ParentId = Menus.ParentId,
+                              MenuLevel = Menus.MenuLevel,
+                              HasAccess = perm == null ? false : !(string.IsNullOrEmpty(Convert.ToString(perm.RoleId)))
+                          }).ToList();
+
+            var RolesList = (from roles in _context.Roles
+                             select new SelectListItem
+                             {
+                                 Value = roles.Id,
+                                 Text = roles.Name
+                             }).ToList();
+            ViewBag.RolesList = RolesList;
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public JsonResult CreatePermission([FromBody]UpdatePermissionViewModel[] model)
+        {
+
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    var existing = _context.MenuPermissions.Where(R => R.RoleId == item.RoleId).ToList();
+                    if (existing != null && existing.Where(x => x.MenuId == item.MenuId).Count() > 0)
+                    {
+                        return Json("Permisiion Already Assigned");
+                    }
+                    else
+                    {
+
+                        MenuPermission mnp = new MenuPermission();
+                        mnp.MenuId = item.MenuId;
+                        mnp.PermissionId = Guid.NewGuid();
+                        mnp.RoleId = item.RoleId;
+                        _context.MenuPermissions.Add(mnp);
+
+
+                        _context.SaveChanges();
+
+                        return Json("Saved Successfully!");
+                    }
+                }
+
+            }
+            return Json("NoData");
+            
+        }
+
         public IActionResult GetMenus()
         {
             List<MenuViewModel> lstmodel = new List<MenuViewModel>();
