@@ -9,5 +9,6 @@ namespace AdminLTE1.ViewModels
     {
         public int MenuId { get; set; }
         public Guid RoleId { get; set; }
+        public string PermissionName { get; set; }
     }
 }

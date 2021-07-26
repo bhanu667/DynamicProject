@@ -70,32 +70,41 @@ namespace AdminLTE1.Controllers
 
             if (model != null)
             {
-                foreach (var item in model)
-                {
-                    var existing = _context.MenuPermissions.Where(R => R.RoleId == item.RoleId).ToList();
-                    if (existing != null && existing.Where(x => x.MenuId == item.MenuId).Count() > 0)
-                    {
-                        return Json("Permisiion Already Assigned");
-                    }
-                    else
-                    {
+                var assigned = "";
+                var alreadyexist = "";
 
+                var existing = _context.MenuPermissions.Where(R => R.RoleId == model.FirstOrDefault().RoleId).ToList();
+                if (existing != null && existing.Count() > 0)
+
+                {
+                    return Json("Permission already assigned!");
+
+                }
+
+                else
+                {
+                    foreach (var item in model)
+                    {
                         MenuPermission mnp = new MenuPermission();
                         mnp.MenuId = item.MenuId;
                         mnp.PermissionId = Guid.NewGuid();
                         mnp.RoleId = item.RoleId;
                         _context.MenuPermissions.Add(mnp);
 
+                        var permissionName = _context.MenuItems.Where(a => a.Id == item.MenuId).FirstOrDefault().Name;
+                        assigned += permissionName + "\n";
 
                         _context.SaveChanges();
-
-                        return Json("Saved Successfully!");
                     }
+
+
+                    return Json("Saved Successfully!");
                 }
 
+               
             }
             return Json("NoData");
-            
+
         }
 
         public IActionResult GetMenus()
