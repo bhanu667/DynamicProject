@@ -22,13 +22,13 @@
                 <td>@index</td>
                 <td>@user.RoleName</td>
                 <td>
-                    <a asp-action="" asp-controller="" asp-route-Id="" class="btn btn-primary">Edit</a>
+                    <a asp-action="EditPermission" asp-controller="Permission" asp-route-Id="@user.Id" class="btn btn-primary">Edit</a>
                 </td>
                 <td>
                     <a class="btn btn-danger" asp-controller="" asp-action="" asp-route-userId="">Delete</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="" asp-action="" asp-route-userId="">View</a>
+                    <a class="btn btn-primary" asp-controller="Permission" asp-action="ViewPermission" asp-route-Id="@user.Id">View</a>
                 </td>
             </tr>
             index++;

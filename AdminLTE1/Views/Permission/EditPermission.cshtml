@@ -1,17 +1,15 @@
 ﻿@model IEnumerable<AdminLTE1.ViewModels.PermissionViewModel>
 @{
-    ViewBag.Title = "Menu Permission";
+    ViewBag.Title = "Edit Permission";
 }
+
+
 @if (Model.Any())
 {
     <div class="col-md-12">
         <div class="card">
-          
-            <div class="card-header">
-                <label>Select Role</label><br />
-                @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RolesList, "Select")
-                
 
+            <div class="card-header">
                 <button id="btnSave" class="btn btn-primary fa-pull-right">Save</button>
             </div>
             <div class="card-body p-0">
@@ -24,7 +22,7 @@
                             <th>Path</th>
                             <th>ParentId</th>
                             <th>MenuLevel</th>
-                         
+
                         </tr>
                     </thead>
                     <tbody>
@@ -37,15 +35,15 @@
                                 <td>@menu.Path</td>
                                 <td>@menu.ParentId</td>
                                 <td>@menu.MenuLevel</td>
-                              
+
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-           
+
         </div>
-    
+
     </div>
 }
 else
@@ -66,22 +64,24 @@ else
             </a>
         </div>
     </div>
+   
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
-     
-       $("#RoleId").on("change", function () {
+
+       @*$("#RoleId").on("change", function () {
             var selectedId = $(this).val();
             window.location.href = '@Url.Action("GetPermissions", "Permissions")' + '?RoleId=' + selectedId;
-        });
+        });*@
 
         $("#btnSave").on('click', function (e) {
-            var RoleId = $('#RoleId').val();
+            //var RoleId = $('#RoleId').val();
+            var RoleId = '@(ViewBag.RoleId)';
             var arr = [];
             $('#idgrid').find('input[type="checkbox"]:checked').each(function () {
-                
+
                 requestData= {
                     MenuId: this.value,
                     RoleId: RoleId
@@ -101,7 +101,7 @@ else
                 success: function (result) {
                     alert(result);
                 },
-              
+
             });
 
         });
