@@ -7,16 +7,37 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<environment include="Development">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h4>Create a new account.</h4>
             <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
+            @*<div asp-validation-summary="All" class="text-danger"></div>*@
+            <div class="form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.UserName"></label>
+                <input asp-for="Input.UserName" class="form-control" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
@@ -28,11 +49,134 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
+            @*<div class="form-group">
+                Country: &nbsp; &nbsp; &nbsp;
+                <select id="CId" name="Input.CId">
+                    <option value="0">Select Country</option>
+                </select>
+                <span asp-validation-for="Input.CId" class="text-danger">*</span>
+            </div>
+            <br /><br />
+
+            <div class="form-group">
+                State: &nbsp; &nbsp; &nbsp;
+                <select id="StateId" name="Input.StateId">
+                    <option value="0">Select State</option>
+                </select>
+                <span asp-validation-for="Input.StateId" asp-message-for="safdsad" class="text-danger">*</span>
+            </div>
+            <br /><br />
+
+
+            <div class="form-group">
+                City: &nbsp; &nbsp; &nbsp;
+                <select id="CityId" name="Input.CityId">
+                    <option value="0">Select City</option>
+                </select>
+                <span asp-validation-for="Input.CityId" class="text-danger">*</span>
+            </div>
+            <br /><br />*@
+
+            <div class="form-group">
+                <label asp-for="Input.Address1"></label>
+                <input asp-for="Input.Address1" class="form-control" />
+                <span asp-validation-for="Input.Address1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Address2"></label>
+                <input asp-for="Input.Address2" class="form-control" />
+                <span asp-validation-for="Input.Address2" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Input.ProfilePictureFile"></label>
+                <input asp-for="Input.ProfilePictureFile" class="form-control" type="file" />
+                <span asp-validation-for="Input.ProfilePictureFile" class="text-danger"></span>
+            </div>*@
+
+
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 </div>
 
-@section Scripts {
+
+@section scripts{
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            $.ajax({
+                url: '/Home/Country',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                //contentType: 'application/json',
+                error: function (xhr) {
+                    alert('Error: ' + xhr);
+                },
+                success: function (result) {
+
+                    $.each(result, function (data, value) {
+                        $("#CId").append($("<option></option>").val(value.value).html(value.text));
+                    })
+                },
+
+            });
+
+
+            $("#CId").on("change", function () {
+                $("#StateId").empty();
+                $("#CityId").empty();
+                $.ajax({
+                    url: '/Home/GetStatesByCountryId',
+                    type: 'GET',
+                    async: true,
+                    data: {
+                        CId: $(this).val()
+                    },
+                    dataType: 'json',
+                    //contentType: 'application/json',
+                    error: function (xhr) {
+                        alert('Error: ' + xhr);
+                    },
+                    success: function (result) {
+
+                        //alert(result);
+                        $("#StateId").append($("<option>" + "Select State" + "</option>"));
+                        $.each(result, function (data, value) {
+                            //debugger;
+                            //alert(value);
+                            $("#StateId").append($("<option></option>").val(value.value).html(value.text));
+                        })
+                    },
+
+                });
+            });
+            $("#StateId").on("change", function () {
+                $("#CityId").empty();
+                $.ajax({
+                    url: '/Home/GetCitiesByStateId',
+                    type: 'GET',
+                    async: false,
+                    data: {
+                        StateId: $(this).val()
+                    },
+                    dataType: 'json',
+                    //contentType: 'application/json',
+                    error: function (xhr) {
+                        alert('Error: ' + xhr);
+                    },
+                    success: function (result) {
+                        $("#CityId").append($("<option>" + "Select State" + "</option>"));
+                        $.each(result, function (data, value) {
+                            $("#CityId").append($("<option></option>").val(value.value).html(value.text));
+                        })
+                    },
+
+                });
+            });
+        });
+    </script>
+
 }

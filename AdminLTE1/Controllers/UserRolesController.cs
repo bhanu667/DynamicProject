@@ -12,10 +12,10 @@ namespace AdminLTE1.Controllers
 {
     public class UserRolesController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserRolesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserRolesController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -24,7 +24,7 @@ namespace AdminLTE1.Controllers
         {
             var users = await _userManager.Users.ToListAsync();
             var userRolesViewModel = new List<UserRolesViewModel>();
-            foreach (IdentityUser user in users)
+            foreach (ApplicationUser user in users)
             {
                 var thisViewModel = new UserRolesViewModel();
                 thisViewModel.UserId = user.Id;
@@ -34,7 +34,7 @@ namespace AdminLTE1.Controllers
             }
             return View(userRolesViewModel);
         }
-        private async Task<List<string>> GetUserRoles(IdentityUser user)
+        private async Task<List<string>> GetUserRoles(ApplicationUser user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
@@ -90,7 +90,7 @@ namespace AdminLTE1.Controllers
                 ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("User/ListUser");
         }
 
         

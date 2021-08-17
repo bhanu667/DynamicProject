@@ -1,0 +1,22 @@
+﻿@model IEnumerable<AdminLTE1.Models.CMSItems>
+
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>About</title>
+
+    </head>
+    <body>
+        @foreach (var cms in Model)
+        {
+        <p>@cms.PageName</p>
+        <p>@cms.Description</p>  
+        
+        <img style="width:350px;height:350px; object-fit:cover" src="~/Images/@cms.BannerImage">
+                    
+        }
+    </body>
+</html>

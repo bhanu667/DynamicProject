@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AdminLTE1.PayPalHelper.PayPalPaymentCreatedResponse>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Success</title>
+</head>
+<body>
+    <h2>Successfully</h2>
+    <h3>Transaction Details</h3>
+
+
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Cart</th>
+            <th>Intent</th>
+            <th>State</th>
+            <th>Create_Time</th>
+        </tr>
+
+        @if (ViewBag.result != null)
+        {
+            var product = ViewBag.result;
+
+                <tr>
+                    <td>@product.id</td>
+                    <td>@product.cart</td>
+                    <td>@product.intent</td>
+                    <td>@product.state</td>
+                    <td>@product.create_time</td>
+                </tr>
+            
+        }
+    </table>
+
+</body>
+</html>
+

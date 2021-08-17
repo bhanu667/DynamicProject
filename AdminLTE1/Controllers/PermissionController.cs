@@ -8,16 +8,37 @@ using AdminLTE1.Models;
 using AdminLTE1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace AdminLTE1.Controllers
 {
     [AuthorizeActionFilter]
     public class PermissionController : Controller
     {
-        private readonly AppDbContext _context;
-        public PermissionController(AppDbContext context)
+        private readonly AddDbContext _context;
+        public PermissionController(AddDbContext context)
         {
             this._context = context;
+        }
+
+
+        public IActionResult Country()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var country in _context.Country)
+            {
+                items.Add(new SelectListItem { Text = country.CName, Value = country.CountryId.ToString() });
+            }
+            ViewBag.lst = items;
+            return View(ViewBag.lst);
+
+        }
+
+        public JsonResult GetCityByStateId(int StateId)
+        {
+            var cty = (_context.City.Where(data => data.SId == StateId).Select(x => new { value = x.CityId, text = x.CityName })).ToList();
+            ViewData["cty"] = cty;
+            return Json(ViewData["cty"]);
         }
 
         public IActionResult Index()
@@ -154,8 +175,7 @@ namespace AdminLTE1.Controllers
                               MenuLevel = Menus.MenuLevel,
                               HasAccess = perm == null ? false : !(string.IsNullOrEmpty(Convert.ToString(perm.RoleId)))
                           }).ToList();
-            var ro = Id;
-            ViewBag.lst = Id;
+           
             return View(result);
         }
 
@@ -193,12 +213,6 @@ namespace AdminLTE1.Controllers
             return Json("NoData");
         }
         
-        [HttpGet]
-        public IActionResult PermissionView()
-        {
-
-            return View();
-        }
 
         public IActionResult GetMenus()
         {
@@ -230,7 +244,7 @@ namespace AdminLTE1.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMenu(MenuViewModel model)
+        public async Task<IActionResult> CreateMenu(MenuViewModel model)
         {
             if (model != null)
             {
@@ -267,6 +281,27 @@ namespace AdminLTE1.Controllers
                           }).ToList();
             return View(result);
         }
+
+
+        [HttpGet]
+        public IActionResult DeletePermissions(Guid Id)
+        {
+            var permission = _context.MenuPermissions.Where(m => m.RoleId == Id);
+            foreach (var perm in permission)
+            {
+                _context.MenuPermissions.Remove(perm);
+            }
+            var perms = _context.MenuPermissions.FirstOrDefault(m => m.RoleId == Id);
+            _context.MenuPermissions.Remove(perms);
+            _context.SaveChanges();
+
+            TempData["successMessage"] = "Permissions Deleted Successfully.";
+            TempData.Keep();
+
+            return RedirectToAction("Index");
+
+        }
+
 
         [HttpGet]
         public IActionResult EditMenu(int Id)
@@ -417,5 +452,8 @@ namespace AdminLTE1.Controllers
             }
             return Json("NoData");
         }
+
+
+       
     }
 }

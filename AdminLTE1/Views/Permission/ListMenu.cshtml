@@ -36,8 +36,8 @@
                                 <td>@menu.ParentId</td>
                                 <td>@menu.MenuLevel</td>
                                 <td>@menu.MenuGrpId</td>
-                                <td><a href="@Url.Action("EditMenu","Permission",new { Id=menu.Id})" class="btn btn-primary">Edit</a></td>
-                                <td><a href="@Url.Action("DeleteMenu","Permission",new {Id=menu.Id})" class="btn btn-danger">Delete</a></td>
+                                <td><a href="@Url.Action("EditMenu","Permission",new { Id=menu.Id})" class="btn btn-primary" >Edit</a></td>
+                                <td><a href="@Url.Action("DeleteMenu","Permission",new {Id=menu.Id})" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete user :@menu.Name">Delete</a></td>
                             </tr>
                         }
                     </tbody>

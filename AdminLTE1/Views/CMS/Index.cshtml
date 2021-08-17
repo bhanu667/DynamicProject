@@ -1,0 +1,80 @@
+﻿@model IEnumerable<AdminLTE1.ViewModels.CMSItemsViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/ckeditor/ckeditor.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<h1>Manage Pages</h1>
+<div class="input-group" style="float: right; display: block;margin: 10px;">
+    <a class="btn btn-danger" asp-controller="CMS" style="float:right" asp-action="CreatePage">Create Page</a>
+</div>
+<table class="table table-striped" id="MyDataTable">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Page Name</th>
+            <th>Page Url</th>
+            <th>Description</th>
+            <th>Banner Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cms in Model)
+        {
+            <tr>
+                <td>@cms.Id</td>
+                <td>@cms.PageName</td>
+                <td>@cms.PageUrl</td>
+                <td>@cms.Description</td>
+                <td>
+                    @if (cms.BannerImage != null)
+                    {
+                        <img style="width:350px;height:350px; object-fit:cover" src="~/Images/@cms.BannerImage">
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditPage" asp-controller="CMS" asp-route-id="@cms.Id" class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" asp-controller="CMS" asp-action="DeletePage" asp-route-id="@cms.Id" onclick="return confirm('Are you sure you want to delete user : @cms.Id')">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+    <script src="~/js/CustomScript.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#MyDataTable").DataTable();
+            CKEDITOR.replace('#Description');
+
+            var obj = { transactionId: 'a', transactionStatus: 'b' };
+            var abc = JSON.stringify(obj);
+            $.ajax({
+                url: '/CMS/UpdateTransaction',
+                type: 'POST',
+                dataType: 'json',
+                data: {test:"test"},
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (xhr) {
+                    alert('Error: ' + xhr.statusText);
+                }
+            });
+
+        }
+
+        )
+    </script>
+}

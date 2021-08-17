@@ -1,30 +1,45 @@
-﻿@model List<Microsoft.AspNetCore.Identity.IdentityUser>
+﻿@model List<AdminLTE1.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "All Users";
 }
 
 <h1>All Users</h1>
+<div class="input-group" style="float: right; display: block;margin: 10px;">
+    <a href="@Url.Action("CreateUser","AddUser")" class="btn btn-primary" style="float:right">AddUser</a>
+</div>
 <table class="table table-striped" id="MyDataTable">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Serial No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone No</th>
             <th>Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Manage Role</th>
         </tr>
     </thead>
     <tbody>
+        @{int index = 1;}
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.Id</td>
+                <td>@index</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.PhoneNumber</td>
                 <td>@user.Email</td>
+                <td><a href="@Url.Action("EditUser","User", new { Id = user.Id })" class="btn btn-primary">Edit</a></td>
+                <td> <a href="@Url.Action("DeleteUser","User", new { Id = user.Id })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete user : @user.UserName')">Delete</a></td>
+                <td><a asp-action="Manage" asp-controller="UserRoles" asp-route-userId="@user.Id" class="btn btn-primary">Manage Roles</a></td>
 
             </tr>
+            index++;
         }
     </tbody>
 </table>
-
-
 
 @section scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />

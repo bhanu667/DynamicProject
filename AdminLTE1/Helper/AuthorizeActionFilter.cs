@@ -31,7 +31,7 @@ namespace AdminLTE1.Helper
 
             }
 
-            var _dbContext = context.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
+            var _dbContext = context.HttpContext.RequestServices.GetRequiredService<AddDbContext>();
             var user = _dbContext.Users.FirstOrDefault(u => u.UserName == userName);
 
             var result = (from menus in _dbContext.MenuPermissions

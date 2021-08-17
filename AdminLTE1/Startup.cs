@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AdminLTE1.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using AdminLTE1.Services;
 
 namespace AdminLTE1
 {
@@ -31,24 +30,23 @@ namespace AdminLTE1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<AddDbContext>(options =>
                             options.UseSqlServer(
                                 Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>(options => {
-                options.SignIn.RequireConfirmedEmail = true;
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.SignIn.RequireConfirmedEmail = false;
             })
-            .AddEntityFrameworkStores<AppDbContext>()
+            .AddEntityFrameworkStores<AddDbContext>()
             .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequiredLength = 8;
-                options.SignIn.RequireConfirmedEmail = true;
-            });
-            services.AddTransient<IEmailSender, EmailSender>();
-
-
+            //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            //{
+            //    options.Password.RequireLowercase = true;
+            //options.Password.RequireUppercase = true;
+            //options.Password.RequireNonAlphanumeric = true;
+            //options.Password.RequireDigit = true;
+            //});
+            //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

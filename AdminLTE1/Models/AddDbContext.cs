@@ -9,16 +9,21 @@ using System.Threading.Tasks;
 
 namespace AdminLTE1.Models
 {
-    public class AppDbContext : IdentityDbContext
+    public class AddDbContext : IdentityDbContext<ApplicationUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        public AddDbContext(DbContextOptions<AddDbContext> options)
         : base(options)
         {
         }
 
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<MenuPermission> MenuPermissions { get; set; }
-
-       
+        public DbSet<Country> Country { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<CMSItems> CMSItems { get; set; }
+        public DbSet<ApplicationUser> users { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<OrderAPI> OrderAPI { get; set; }
     }
 }

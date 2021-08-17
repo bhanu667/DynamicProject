@@ -10,10 +10,10 @@ namespace AdminLTE1.ViewComponents
 {
     public class MegaMenuViewComponent : ViewComponent
     {
-        private readonly AppDbContext _context;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly AddDbContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public MegaMenuViewComponent(AppDbContext context,UserManager<IdentityUser> userManager)
+        public MegaMenuViewComponent(AddDbContext context,UserManager<ApplicationUser> userManager)
         {
             this._context = context;
             this.userManager = userManager;

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AdminLTE1.Models.CMSItems>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Pages</title>
+
+    </head>
+
+    <body>
+        @if(Model.Count()>1)
+        {
+           foreach (var cms in Model)
+              {
+                  <a href="/page/index/@cms.PageUrl">@cms.PageName</a><br />
+              }
+        }
+        else
+        {
+                @Html.Raw(Model.FirstOrDefault().Description)<br />
+                <img style="width:1070px;height:150px; object-fit:cover" src="~/Images/@Model.FirstOrDefault().BannerImage"><br />
+        }
+    </body>
+</html>
+
