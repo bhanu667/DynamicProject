@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AdminLTE1.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Rotativa.AspNetCore;
 
 namespace AdminLTE1
 {
@@ -78,6 +79,7 @@ namespace AdminLTE1
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            RotativaConfiguration.Setup(env);
         }
     }
 }

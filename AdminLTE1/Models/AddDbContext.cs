@@ -25,5 +25,6 @@ namespace AdminLTE1.Models
         public DbSet<ApplicationUser> users { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<OrderAPI> OrderAPI { get; set; }
+        public DbSet<Event> Event { get; set; }
     }
 }

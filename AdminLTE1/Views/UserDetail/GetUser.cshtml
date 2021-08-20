@@ -1,0 +1,220 @@
+﻿@model IEnumerable<AdminLTE1.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Menu Permission";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</environment>
+
+
+
+
+
+<div class="col-md-12">
+    <div class="card">
+
+        <div class="card-header">
+            <label>Select User</label><br />
+            @Html.DropDownList("UserId", (IEnumerable<SelectListItem>)ViewBag.UserList, "Select")
+
+        </div>
+        <div class="card-body p-0">
+            <table id="idgrid" class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>User Id</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var menu in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox" value="@menu.Id" /></td>
+                            <td>@menu.Id</td>
+                            <td>@menu.UserName</td>
+                            <td>@menu.Email</td>
+                            <td>@menu.FirstName</td>
+                            <td>@menu.LastName</td>
+                            <td>@menu.Address1</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Datepicker - Select a Date Range</title>
+
+    <script>
+        $(function () {
+            var dateFormat = "mm/dd/yy",
+                from = $("#from")
+                    .datepicker({
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        numberOfMonths: 1
+                    })
+                    .on("change", function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+                to = $("#to").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                    .on("change", function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        });
+    </script>
+</head>
+<body>
+
+    @*<div class="form-group">
+        <label asp-for="PageUrl"></label>
+        <input asp-for="PageUrl" class="form-control" placeholder="Path">
+        <span asp-validation-for="PageUrl" class="text-danger"></span>
+    </div>*@
+
+    <label for="from">From</label>
+    <input type="text" id="from" name="from" autocomplete="off">
+    <label for="to">to</label>
+    <input type="text" id="to" name="to" autocomplete="off">
+
+
+</body>
+</html>
+
+
+
+@*<script type="text/javascript">
+
+    
+
+    $(document).ready(function () {
+     
+        $("#from").on("change", function () {
+            var selectedId = $(this).val();
+            window.location.href = '@Url.Action("GetUser", "UserDetail")' + '?from=' + selectedId;
+            var arr = [];
+            var from = $('#from').val();
+            requestData = {
+                //MenuId: this.value,
+                from: from
+            }
+            arr.push(requestData);
+        });
+        $.ajax({
+            url: '/UserDetail/GetUser',
+            type: 'POST',
+            data: JSON.stringify(arr),
+            dataType: 'json',
+            contentType: 'application/json',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                alert(result);
+            },
+
+        });
+        });
+            
+    
+</script>*@
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+       $("#UserId").on("change", function () {
+           var selectedId = $(this).val();
+
+           let r = (Math.random() + 1).toString(36).substring(7);
+           //console.log("random", r);
+         //  alert(selectedId);
+          // var uniqueCode = r;
+           window.location.href = '@Url.Action("GetUser", "UserDetail")' + '?UserId=' + selectedId + '&code=' + r;
+        });
+
+        $("#btnSave").on('click', function (e) {
+            var UserId = $('#UserId').val();
+            var arr = [];
+            $('#idgrid').find('input[type=""]:checked').each(function () {
+
+                requestData= {
+                    MenuId: this.value,
+                    UserId: UserId
+                }
+                arr.push(requestData);
+            });
+
+            $.ajax({
+                url: '/UserDetail/GetUser',
+                type: 'Get',
+                data: JSON.stringify(arr),
+               dataType: 'json',
+               contentType: 'application/json',
+               error: function (xhr) {
+                    alert('Error: ' + xhr.statusText);
+                },
+                success: function (result) {
+                    alert(result);
+                },
+
+            });
+
+        });
+    });
+</script>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#MyDataTable").DataTable();
+        }
+        )
+    </script>
+}

@@ -61,11 +61,9 @@ namespace AdminLTE1.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Address1")
-                        .IsRequired();
+                    b.Property<string>("Address1");
 
-                    b.Property<string>("Address2")
-                        .IsRequired();
+                    b.Property<string>("Address2");
 
                     b.Property<int>("CId");
 
@@ -79,11 +77,9 @@ namespace AdminLTE1.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired();
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("LastName")
-                        .IsRequired();
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -125,6 +121,28 @@ namespace AdminLTE1.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("AdminLTE1.Models.CMSItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BannerImage")
+                        .IsRequired();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("PageName");
+
+                    b.Property<string>("PageUrl")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CMSItems");
+                });
+
             modelBuilder.Entity("AdminLTE1.Models.City", b =>
                 {
                     b.Property<int>("CityId")
@@ -151,6 +169,59 @@ namespace AdminLTE1.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Country");
+                });
+
+            modelBuilder.Entity("AdminLTE1.Models.OrderAPI", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Amount");
+
+                    b.Property<string>("CountryCode");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("Intent");
+
+                    b.Property<string>("Invoice");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("PayerId");
+
+                    b.Property<string>("PaymentMethod");
+
+                    b.Property<string>("ShippingAddress");
+
+                    b.Property<string>("State");
+
+                    b.Property<string>("TransactionFee");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderAPI");
+                });
+
+            modelBuilder.Entity("AdminLTE1.Models.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateTime");
+
+                    b.Property<string>("OrderId");
+
+                    b.Property<string>("Status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("AdminLTE1.Models.State", b =>

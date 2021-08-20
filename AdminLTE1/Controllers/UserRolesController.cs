@@ -90,7 +90,7 @@ namespace AdminLTE1.Controllers
                 ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
-            return RedirectToAction("User/ListUser");
+            return RedirectToAction("Index");
         }
 
         

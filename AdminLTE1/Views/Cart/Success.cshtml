@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AdminLTE1.PayPalHelper.PayPalPaymentCreatedResponse>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -16,30 +16,44 @@
     <h3>Transaction Details</h3>
 
 
-    <table border="1">
+    <table class="table">
         <tr>
             <th>Id</th>
-            <th>Cart</th>
-            <th>Intent</th>
-            <th>State</th>
-            <th>Create_Time</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>View Invoice</th>
         </tr>
 
         @if (ViewBag.result != null)
         {
             var product = ViewBag.result;
 
-                <tr>
-                    <td>@product.id</td>
-                    <td>@product.cart</td>
-                    <td>@product.intent</td>
-                    <td>@product.state</td>
-                    <td>@product.create_time</td>
-                </tr>
-            
+        <tr>
+            <td>@product.id</td>
+            <td>@(product.payer.payer_info.first_name + " " + product.payer.payer_info.last_name)</td>
+            <td>@product.payer.payer_info.email</td>
+            <td>
+                <a asp-action="Invoice" asp-controller="Cart" asp-route-id="@product.id"
+                   class="btn btn-primary" style="width:auto">Invoice</a>
+            </td>
+        </tr>
+
         }
     </table>
 
 </body>
 </html>
 
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#MyDataTable").DataTable();
+        }
+        )
+    </script>
+}
