@@ -4,6 +4,8 @@
     Layout = null;
 }
 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,6 +85,12 @@
                     text-align: center;
                 }
 
+        .text-left {
+            text-align: left !important;
+        }
+
+        .text-right {
+            text-align: right !important;
         }
 
         /** RTL **/
@@ -114,7 +122,7 @@
 
 
                             <td>
-                                Invoice #: 123<br />
+                                Invoice #: @Model.OrderId<br />
                                 Created:  @Model.CreateDate
 
                             </td>
@@ -127,17 +135,17 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td style="text-align:left;">
+                            <td class="text-left">
                                 Billing To:<br />
                                 Dotsquares Technology.<br />
                                 Jhalana dungari<br />
                                 Jaipur(Rajasthan)
                             </td>
-                            <td style="text-align:right;" rowspan="1">
+                            <td class="text-right">
                                 Shipping Address:<br />
                                 @if (!string.IsNullOrEmpty(Model.ShippingAddress))
                                 {
-                                @Model.ShippingAddress
+                                    @Model.ShippingAddress
                                 }
                             </td>
                         </tr>
@@ -151,7 +159,7 @@
                 <td>
                     @if (!string.IsNullOrEmpty(Model.PaymentMethod))
                     {
-                    @Model.PaymentMethod
+                        @Model.PaymentMethod
                     }
                 </td>
             </tr>
@@ -164,7 +172,7 @@
                 <td>
                     @if (!string.IsNullOrEmpty(Model.TransactionFee))
                     {
-                    @Model.TransactionFee
+                        @Model.TransactionFee
                     }
                 </td>
             </tr>
@@ -176,7 +184,7 @@
                 <td>
                     @if (!string.IsNullOrEmpty(Model.Amount))
                     {
-                    @Model.Amount
+                        @Model.Amount
                     }
                 </td>
             </tr>
@@ -184,6 +192,10 @@
     </div>
 </body>
 </html>
+
+
+
+
 
 
 

@@ -30,9 +30,9 @@ namespace AdminLTE1.Controllers
             return View(inc);
         }
 
-        public IActionResult InvoicePdf(string id)
+        public IActionResult InvoicePdf(int id)
         {
-            var inc = _api.OrderAPI.Where(x => x.OrderId == id).FirstOrDefault();
+            var inc = _api.OrderAPI.Where(x => x.Id == id).FirstOrDefault();
             return new ViewAsPdf("InvoicePdf", inc);
         }
 

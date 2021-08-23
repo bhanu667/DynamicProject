@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using AdminLTE1.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Rotativa.AspNetCore;
+using System.Globalization;
+using System.Threading;
 
 namespace AdminLTE1
 {
@@ -39,6 +41,11 @@ namespace AdminLTE1
             })
             .AddEntityFrameworkStores<AddDbContext>()
             .AddDefaultTokenProviders();
+
+            CultureInfo cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            cultureInfo.DateTimeFormat.ShortDatePattern = "MM/dd/yyyy";
+            cultureInfo.DateTimeFormat.DateSeparator = "/";
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
 
             //services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             //{

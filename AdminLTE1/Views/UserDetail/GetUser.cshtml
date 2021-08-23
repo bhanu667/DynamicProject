@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AdminLTE1.Models.ApplicationUser>
+﻿@model AdminLTE1.ViewModels.AVViewModel
 @{
     ViewBag.Title = "Menu Permission";
 }
@@ -23,10 +23,12 @@
 
         </div>
         <div class="card-body p-0">
+
             <table id="idgrid" class="table">
                 <thead>
                     <tr>
-                        <th style="width: 10px">#</th>
+                        <th style="width: 10px"></th>
+                        //
                         <th>User Id</th>
                         <th>User Name</th>
                         <th>Email</th>
@@ -37,19 +39,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var menu in Model)
-                    {
-                        <tr>
-                            <td><input type="checkbox" value="@menu.Id" /></td>
-                            <td>@menu.Id</td>
-                            <td>@menu.UserName</td>
-                            <td>@menu.Email</td>
-                            <td>@menu.FirstName</td>
-                            <td>@menu.LastName</td>
-                            <td>@menu.Address1</td>
+                    @*@foreach (var menu in Model)
+                        {*@
+                    <tr>
+                        <td><input type="checkbox" value="@Model.Id" /></td>
+                        <td>@Model.Id</td>
+                        <td>@Model.UserName</td>
+                        <td>@Model.Email</td>
+                        <td>@Model.FirstName</td>
+                        <td>@Model.LastName</td>
+                        <td>@Model.Address1</td>
 
-                        </tr>
-                    }
+                    </tr>
+                    @*}*@
                 </tbody>
             </table>
         </div>
@@ -68,8 +70,8 @@
 
     <script>
         $(function () {
-            var dateFormat = "mm/dd/yy",
-                from = $("#from")
+            var dateFormat = "MM/dd/yyyy",
+                from = $("#StartDate")
                     .datepicker({
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -78,7 +80,7 @@
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-                to = $("#to").datepicker({
+                to = $("#EndDate").datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     numberOfMonths: 1
@@ -101,60 +103,23 @@
     </script>
 </head>
 <body>
-
-    @*<div class="form-group">
-        <label asp-for="PageUrl"></label>
-        <input asp-for="PageUrl" class="form-control" placeholder="Path">
-        <span asp-validation-for="PageUrl" class="text-danger"></span>
-    </div>*@
-
-    <label for="from">From</label>
-    <input type="text" id="from" name="from" autocomplete="off">
-    <label for="to">to</label>
-    <input type="text" id="to" name="to" autocomplete="off">
-
-
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" id="StartDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" autocomplete="off" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" id="EndDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" autocomplete="off" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>       
+        <input type="hidden" asp-for="code" />
+        <input type="hidden" asp-for="UserIdNew" />
+        <button type="submit" asp-controller="UserDetail" asp-action="GetUser" class="btn btn-primary">Save</button>
+    </form>   
 </body>
 </html>
-
-
-
-@*<script type="text/javascript">
-
-    
-
-    $(document).ready(function () {
-     
-        $("#from").on("change", function () {
-            var selectedId = $(this).val();
-            window.location.href = '@Url.Action("GetUser", "UserDetail")' + '?from=' + selectedId;
-            var arr = [];
-            var from = $('#from').val();
-            requestData = {
-                //MenuId: this.value,
-                from: from
-            }
-            arr.push(requestData);
-        });
-        $.ajax({
-            url: '/UserDetail/GetUser',
-            type: 'POST',
-            data: JSON.stringify(arr),
-            dataType: 'json',
-            contentType: 'application/json',
-            error: function (xhr) {
-                alert('Error: ' + xhr.statusText);
-            },
-            success: function (result) {
-                alert(result);
-            },
-
-        });
-        });
-            
-    
-</script>*@
-
 
 
 
@@ -165,9 +130,33 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-       $("#UserId").on("change", function () {
-           var selectedId = $(this).val();
+        var code = getUrlVars()["code"];
+        var selectedId = getUrlVars()["UserId"];
+        if (code != undefined && code != '') {
+            $('#code').val(code);
+        }
+        if (selectedId != undefined && selectedId != '') {
+            $('#UserIdNew').val(selectedId);
+            alert(selectedId);
+        }
+        
+        // Read a page's GET URL variables and return them as an associative array.
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
 
+        $("#UserId").on("change", function () {
+            debugger;
+           var selectedId = $(this).val();
+          
+                                          
            let r = (Math.random() + 1).toString(36).substring(7);
            //console.log("random", r);
          //  alert(selectedId);
@@ -218,3 +207,20 @@
         )
     </script>
 }
+
+    <script>
+        $.ajax({
+            url: '/UserDetail/GetUser',
+            type: 'POST',
+            data: JSON.stringify(AVViewModel),
+            dataType: 'json',
+            contentType: 'application/json',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                alert(result);
+            },
+
+        });
+    </script>

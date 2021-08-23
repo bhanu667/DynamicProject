@@ -43,7 +43,7 @@ namespace AdminLTE1.Security
             }
         }
 
-        public static string DecryptString(string cipherText, string keyString)
+        public string DecryptString(string cipherText, string keyString)
         {
             var fullCipher = Convert.FromBase64String(cipherText);
 
