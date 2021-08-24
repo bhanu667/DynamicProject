@@ -30,7 +30,7 @@ namespace AdminLTE1.Controllers
             var user = _context.Users.Where(x=> x.Id == UserId.ToString()).FirstOrDefault();
             if (user != null)
             {
-                viewModel.Id = user.Id;
+                //viewModel.Id = user.Id.to;
                 viewModel.UserName = user.UserName;
                 viewModel.FirstName = user.FirstName;
                 viewModel.LastName = user.LastName;
@@ -51,10 +51,10 @@ namespace AdminLTE1.Controllers
         [HttpPost]
         public JsonResult GetUser(AVViewModel model)
         {
-            var crypt = model.UserIdNew + model.code; 
+            var crypt = model.UserIdNew + "/"+ model.code; 
             Encryption encryption = new Encryption();
-            string sandbox = _configuration["Encryption:UniqueKey"];
-            var quc = encryption.EncryptString(crypt, sandbox);
+            string UniqueKey = _configuration["Encryption:UniqueKey"];
+            var quc = encryption.EncryptString(crypt, UniqueKey);
             SurveyUrl et = new SurveyUrl();
             et.Url = crypt;
             et.EncryptUrl = quc;
@@ -65,13 +65,22 @@ namespace AdminLTE1.Controllers
             return Json("Saved Successfully");
         }
 
-        public IActionResult Decrypt(AVViewModel model)
+        public IActionResult Decrypt()
         {
-            var dec = _context.SurveyUrl.FirstOrDefault().EncryptUrl;
+            var dec = _context.SurveyUrl.OrderByDescending(x=>x.Id).FirstOrDefault().EncryptUrl;
             Encryption encryption = new Encryption();
-            string sandbox = _configuration["Encryption:UniqueKey"];
-            var quc = encryption.DecryptString(dec, sandbox);
-            return View("Saved Successfully");
+            string UniqueKey = _configuration["Encryption:UniqueKey"];
+            var decryptURL = encryption.DecryptString(dec, UniqueKey);
+            var userId = decryptURL.Split('/')[0];
+            if(userId!= null && userId==decryptURL)
+            {
+                return Json("Decrypt Successfully");
+            }
+            else
+            {
+                return Json("Credential mismatch");
+            }
+            
         }
 
         public IActionResult Desc()
@@ -80,15 +89,5 @@ namespace AdminLTE1.Controllers
          
             return View();
         }
-
-
-
-
-
-        //public IActionResult Index()
-        //{
-        //    var qrs = TempData["qs"];
-        //    return View();
-        //}
     }
 }

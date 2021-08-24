@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<AdminLTE1.PayPalHelper.PayPalPaymentCreatedResponse>
 @using System.Linq;
-<h1>Success</h1>
+<h1>Transaction Success</h1>
 <!DOCTYPE html>
-<html>
+
+@*<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Success</title>
 </head>
-<body>    
+<body>
     <h3>Transaction Details</h3>
     <table id="idgrid" class="table">
         <thead>
@@ -18,23 +19,26 @@
                 <th>Transaction State</th>
                 <th>Refund</th>
             </tr>
+
         </thead>
         <tbody>
-            
+
             @if (ViewBag.result != null)
             {
                 var item = ViewBag.result;
                 var saleId = ViewBag.SaleId;
-<tr>
-    <td>@item.id</td>
-    <td>@item.intent</td>
-    <td>@item.cart</td>
-    <td>@item.state</td>
-    <td>
-        <a asp-controller="Cart" asp-action="Refund" asp-route-Id="@saleId">Refund</a>
-    </td>
-</tr>
-}
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.intent</td>
+                    <td>@item.cart</td>
+                    <td>@item.state</td>
+
+                    <td>
+                        <a asp-controller="Cart" asp-action="Refund"
+                           asp-route-Id="@saleId">Refund</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </body>
@@ -44,10 +48,9 @@
     <script src="~/js/CustomScript.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $("#MyDataTable").DataTable();
-        }
-        )
+                    $(document).ready(function () {
+                        $("#MyDataTable").DataTable();
+                    }
+                    )
     </script>
-}
-
+}*@

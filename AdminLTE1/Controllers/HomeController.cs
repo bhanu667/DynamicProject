@@ -21,7 +21,10 @@ namespace AdminLTE1.Controllers
             return View();
         }
 
-
+        public IActionResult Paypal()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

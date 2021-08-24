@@ -1,6 +1,6 @@
 ﻿@model AdminLTE1.ViewModels.AVViewModel
 @{
-    ViewBag.Title = "Menu Permission";
+    ViewBag.Title = "User Details";
 }
 
 <environment include="Development">
@@ -10,13 +10,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </environment>
 
-
-
-
-
 <div class="col-md-12">
     <div class="card">
-
+        @*Bind User DropDown and displayed user details*@
         <div class="card-header">
             <label>Select User</label><br />
             @Html.DropDownList("UserId", (IEnumerable<SelectListItem>)ViewBag.UserList, "Select")
@@ -24,40 +20,28 @@
         </div>
         <div class="card-body p-0">
 
-            <table id="idgrid" class="table">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th style="width: 10px"></th>
-                        //
-                        <th>User Id</th>
                         <th>User Name</th>
                         <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Address</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    @*@foreach (var menu in Model)
-                        {*@
                     <tr>
-                        <td><input type="checkbox" value="@Model.Id" /></td>
-                        <td>@Model.Id</td>
                         <td>@Model.UserName</td>
                         <td>@Model.Email</td>
                         <td>@Model.FirstName</td>
                         <td>@Model.LastName</td>
                         <td>@Model.Address1</td>
-
                     </tr>
-                    @*}*@
                 </tbody>
             </table>
         </div>
-
     </div>
-
 </div>
 
 
@@ -67,8 +51,61 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Datepicker - Select a Date Range</title>
+</head>
+<body>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" id="StartDate" type="text" class="form-control" autocomplete="off" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" id="EndDate" type="text" class="form-control" autocomplete="off" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>       
+        <input type="hidden" asp-for="code" />
+        <input type="hidden" asp-for="UserIdNew" />
+        <button type="submit" asp-controller="UserDetail" asp-action="GetUser" class="btn btn-primary">Save</button>
+    </form>   
+</body>
+</html>
 
-    <script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var code = getUrlVars()["code"];
+        var selectedId = getUrlVars()["UserId"];
+        if (code != undefined && code != '') {
+            $('#code').val(code);
+        }
+        if (selectedId != undefined && selectedId != '') {
+            $('#UserIdNew').val(selectedId);
+            //alert(selectedId);
+        }
+        
+        // Read a page's GET URL variables and return them as an associative array.
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        $("#UserId").on("change", function () {
+            debugger;
+           var selectedId = $(this).val();
+          
+                                          
+           let r = (Math.random() + 1).toString(36).substring(7);
+           window.location.href = '@Url.Action("GetUser", "UserDetail")' + '?UserId=' + selectedId + '&code=' + r;
+        });
+
         $(function () {
             var dateFormat = "MM/dd/yyyy",
                 from = $("#StartDate")
@@ -100,127 +137,5 @@
                 return date;
             }
         });
-    </script>
-</head>
-<body>
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="StartDate" class="control-label"></label>
-            <input asp-for="StartDate" id="StartDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" autocomplete="off" />
-            <span asp-validation-for="StartDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="EndDate" class="control-label"></label>
-            <input asp-for="EndDate" id="EndDate" type="text" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" autocomplete="off" />
-            <span asp-validation-for="EndDate" class="text-danger"></span>
-        </div>       
-        <input type="hidden" asp-for="code" />
-        <input type="hidden" asp-for="UserIdNew" />
-        <button type="submit" asp-controller="UserDetail" asp-action="GetUser" class="btn btn-primary">Save</button>
-    </form>   
-</body>
-</html>
-
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        var code = getUrlVars()["code"];
-        var selectedId = getUrlVars()["UserId"];
-        if (code != undefined && code != '') {
-            $('#code').val(code);
-        }
-        if (selectedId != undefined && selectedId != '') {
-            $('#UserIdNew').val(selectedId);
-            alert(selectedId);
-        }
-        
-        // Read a page's GET URL variables and return them as an associative array.
-        function getUrlVars() {
-            var vars = [], hash;
-            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-            for (var i = 0; i < hashes.length; i++) {
-                hash = hashes[i].split('=');
-                vars.push(hash[0]);
-                vars[hash[0]] = hash[1];
-            }
-            return vars;
-        }
-
-        $("#UserId").on("change", function () {
-            debugger;
-           var selectedId = $(this).val();
-          
-                                          
-           let r = (Math.random() + 1).toString(36).substring(7);
-           //console.log("random", r);
-         //  alert(selectedId);
-          // var uniqueCode = r;
-           window.location.href = '@Url.Action("GetUser", "UserDetail")' + '?UserId=' + selectedId + '&code=' + r;
-        });
-
-        $("#btnSave").on('click', function (e) {
-            var UserId = $('#UserId').val();
-            var arr = [];
-            $('#idgrid').find('input[type=""]:checked').each(function () {
-
-                requestData= {
-                    MenuId: this.value,
-                    UserId: UserId
-                }
-                arr.push(requestData);
-            });
-
-            $.ajax({
-                url: '/UserDetail/GetUser',
-                type: 'Get',
-                data: JSON.stringify(arr),
-               dataType: 'json',
-               contentType: 'application/json',
-               error: function (xhr) {
-                    alert('Error: ' + xhr.statusText);
-                },
-                success: function (result) {
-                    alert(result);
-                },
-
-            });
-
-        });
     });
 </script>
-
-@section scripts{
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
-
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $("#MyDataTable").DataTable();
-        }
-        )
-    </script>
-}
-
-    <script>
-        $.ajax({
-            url: '/UserDetail/GetUser',
-            type: 'POST',
-            data: JSON.stringify(AVViewModel),
-            dataType: 'json',
-            contentType: 'application/json',
-            error: function (xhr) {
-                alert('Error: ' + xhr.statusText);
-            },
-            success: function (result) {
-                alert(result);
-            },
-
-        });
-    </script>

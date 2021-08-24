@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add meta tags for mobile and IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title> PayPal Checkout Integration | Client Demo </title>
+</head>
+<body>
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+    <!-- Include the PayPal JavaScript SDK -->
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script>
+        debugger;
+        var bhanu = "PRM: Hello bhanu";
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '/PayPal/FillState',
+            contentType: 'application/json;',
+            data: JSON.stringify({
+                PRM: 'Hello bhanu'
+                //transactionId: transaction.id, transactionStatus: transaction.status,
+                //transactionTime: transaction.create_time
+            }),
+            success: function (result) {
+
+                logit("GP Works =" + result);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+

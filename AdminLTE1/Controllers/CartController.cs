@@ -37,7 +37,12 @@ namespace AdminLTE1.Controllers
         }
 
 
-
+        public async Task<IActionResult> Refund(string Id)
+        {
+            string CaptureId = Id;
+            PayPalRefund.CapturesRefund(CaptureId, true).Wait();
+            return View();
+        }
 
         public IActionResult Index()
         {
@@ -66,9 +71,6 @@ namespace AdminLTE1.Controllers
 
             try
             {
-
-
-
                 OrderAPI lst = new OrderAPI();
 
                 //PayPalPaymentExecutedResponse lst = JsonConvert.DeserializeObject<PayPalPaymentExecutedResponse>(result);
@@ -105,6 +107,7 @@ namespace AdminLTE1.Controllers
                 lst.TransactionFee = result.transactions.FirstOrDefault().related_resources.FirstOrDefault().sale.transaction_fee.value;
                 lst.CreateDate = result.create_time;
                 lst.SaleId = result.transactions.FirstOrDefault().related_resources.FirstOrDefault().sale.id;
+                ViewBag.SaleId = result.transactions.FirstOrDefault().related_resources.FirstOrDefault().sale.id;
                 _api.OrderAPI.Add(lst);
                 _api.SaveChanges();
 

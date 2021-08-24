@@ -8,7 +8,6 @@ namespace AdminLTE1.Models
 {
     public class OrderAPI
     {
-        //[Key]
         public int Id { get; set; }
         public string OrderId { get; set; }
         public string PayerId { get; set; }

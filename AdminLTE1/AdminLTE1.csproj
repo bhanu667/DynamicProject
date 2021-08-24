@@ -383,4 +383,9 @@
     <None Include="wwwroot\js\vendor\promise.js" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Checkout-NET-SDK-develop\Samples\Samples.csproj" />
+  </ItemGroup>
+
 </Project>

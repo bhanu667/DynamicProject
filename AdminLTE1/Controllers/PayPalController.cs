@@ -22,21 +22,11 @@ namespace AdminLTE1.Controllers
         {
             return View();
         }
-        public IActionResult FillState(string transactionId, string transactionStatus, DateTime transactionTime)        {            OrderDetails details = new OrderDetails();            details.OrderId = transactionId;
-            details.Status = transactionStatus;
-            details.CreateTime = transactionTime;
+        [HttpPost]        public IActionResult FillState([FromBody] OrderData data)        {            OrderDetails details = new OrderDetails();            details.OrderId = data.id;
+            details.Status = data.status;
+            details.CreateTime = data.update_time;
             _context.OrderDetails.Add(details);
             _context.SaveChanges();
             return Json("Saved Successfully");        }
-
-
-        //[HttpPost]
-        //public IActionResult FillState(OrderData transaction)        //{        //    //OrderDetails details = new OrderDetails();        //    //details.OrderId = transactionId;
-        //    //details.Status = transactionStatus;
-        //    //details.CreateTime = transactionTime;
-        //    //_context.OrderDetails.Add(details);
-        //    //_context.SaveChanges();
-        //    return Json("Saved Successfully");        //}
-
     }
 }
