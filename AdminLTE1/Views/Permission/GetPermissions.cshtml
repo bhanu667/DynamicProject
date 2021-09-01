@@ -6,11 +6,11 @@
 {
     <div class="col-md-12">
         <div class="card">
-          
+
             <div class="card-header">
                 <label>Select Role</label><br />
                 @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RolesList, "Select")
-                
+
 
                 <button id="btnSave" class="btn btn-primary fa-pull-right">Save</button>
             </div>
@@ -24,7 +24,7 @@
                             <th>Path</th>
                             <th>ParentId</th>
                             <th>MenuLevel</th>
-                         
+
                         </tr>
                     </thead>
                     <tbody>
@@ -37,15 +37,15 @@
                                 <td>@menu.Path</td>
                                 <td>@menu.ParentId</td>
                                 <td>@menu.MenuLevel</td>
-                              
+
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-           
+
         </div>
-    
+
     </div>
 }
 else
@@ -67,56 +67,59 @@ else
         </div>
     </div>
 }
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(document).ready(function () {
-     
-       $("#RoleId").on("change", function () {
-            var selectedId = $(this).val();
-            window.location.href = '@Url.Action("GetPermissions", "Permissions")' + '?RoleId=' + selectedId;
-        });
-
-        $("#btnSave").on('click', function (e) {
-            var RoleId = $('#RoleId').val();
-            var arr = [];
-            $('#idgrid').find('input[type="checkbox"]:checked').each(function () {
-                
-                requestData= {
-                    MenuId: this.value,
-                    RoleId: RoleId
-                }
-                arr.push(requestData);
-            });
-
-            $.ajax({
-                url: '/Permission/UpdatePermission',
-                type: 'POST',
-                data: JSON.stringify(arr),
-               dataType: 'json',
-               contentType: 'application/json',
-               error: function (xhr) {
-                    alert('Error: ' + xhr.statusText);
-                },
-                success: function (result) {
-                    alert(result);
-                },
-              
-            });
-
-        });
-    });
-</script>
-
-@section scripts{
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
-
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
-
-    <script>
         $(document).ready(function () {
-            $("#MyDataTable").DataTable();
-        }
-        )
+
+           $("#RoleId").on("change", function () {
+                var selectedId = $(this).val();
+                window.location.href = '@Url.Action("GetPermissions", "Permissions")' + '?RoleId=' + selectedId;
+            });
+            debugger;
+
+            $("#btnSave").on('click', function (e) {
+                var RoleId = $('#RoleId').val();
+                var arr = [];
+                $('#idgrid').find('input[type="checkbox"]:checked').each(function () {
+
+                    requestData= {
+                        MenuId: this.value,
+                        RoleId: RoleId
+                    }
+                    arr.push(requestData);
+                });
+
+                $.ajax({
+                    url: '/Permission/UpdatePermission',
+                    type: 'POST',
+                    data: JSON.stringify(arr),
+                   dataType: 'json',
+                   contentType: 'application/json',
+                   error: function (xhr) {
+                        alert('Error: ' + xhr.statusText);
+                    },
+                    success: function (result) {
+                        alert(result);
+                    },
+
+                });
+
+            });
+        });
     </script>
-}
+
+    @section scripts{
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#MyDataTable").DataTable();
+            }
+            )
+        </script>
+    }
+

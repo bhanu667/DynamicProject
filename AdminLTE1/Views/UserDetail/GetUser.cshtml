@@ -116,6 +116,7 @@
                     })
                     .on("change", function () {
                         to.datepicker("option", "minDate", getDate(this));
+                       // alert($(this).val());
                     }),
                 to = $("#EndDate").datepicker({
                     defaultDate: "+1w",

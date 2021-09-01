@@ -1,0 +1,76 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
+    <link href="~/css/combo.css" rel="stylesheet" />
+    <style>
+        body {
+        }
+        .container {
+            margin: 150px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-header">
+            <label>Select Role</label><br />
+            @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RolesList, "Select")
+            <button id="btnSave" class="btn btn-primary fa-pull-right">Save</button>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Multi Selection</h3>
+                <input type="text" id="justAnInputBox4" placeholder="Select" autocomplete="off" />
+            </div>            
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="~/js/comboTreePlugin.js"></script>
+    <script type="text/javascript">
+        var comboTrees;
+        var myData1 =@Html.Raw(ViewBag.Json);
+        var menuPermission = '@Html.Raw(ViewBag.Per)';
+
+         var perArray = [];
+            $("#RoleId").on("change", function () {
+                var selectedId = $(this).val();
+                window.location.href = '@Url.Action("TreeViewFinal1", "Test")' + '?RoleId=' + selectedId;
+            });
+
+        if (menuPermission !== undefined) {
+            menuPermission = menuPermission.trim();
+        }
+        if (menuPermission !== '') {
+            perArray = menuPermission.split(',');
+        }
+
+        if (perArray.length > 0) {
+            console.log(perArray)
+            window.comboTrees = $('#justAnInputBox4').comboTree({
+                source: myData1,
+                isMultiple: true,
+                cascadeSelect: false,
+                selected: ["32", "4", "1010", "33", "1011", "1005", "30", "1004", "1003", "28", "9", "10", "5", "3", "11", "6"]
+            });
+        }
+        else {
+            window.comboTrees = $('#justAnInputBox4').comboTree({
+                source: myData1,
+                isMultiple: true,
+                cascadeSelect: false
+            });
+        }   
+    </script>
+</body>
+</html>

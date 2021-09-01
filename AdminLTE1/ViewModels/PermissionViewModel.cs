@@ -15,4 +15,18 @@ namespace AdminLTE1.ViewModels
         public bool HasAccess { get; set; }
         public int MenuGrpId { get; set; }
     }
+
+
+    public class ParentChildModel
+    {
+        public PermissionViewModel ParentNode { get; set; }
+
+        public IList<PermissionViewModel> ChildNodes { get; set; }
+
+    }
+
+    public class ListModel
+    {
+        public List<ParentChildModel> Nodes { get; set; }
+    }
 }

@@ -26,5 +26,7 @@ namespace AdminLTE1.Models
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<OrderAPI> OrderAPI { get; set; }
         public DbSet<SurveyUrl> SurveyUrl { get; set; }
+        public DbSet<StateData> StateData { get; set; }
+        public DbSet<CityData> CityData { get; set; }
     }
 }

@@ -72,7 +72,7 @@ namespace AdminLTE1.Controllers
             string UniqueKey = _configuration["Encryption:UniqueKey"];
             var decryptURL = encryption.DecryptString(dec, UniqueKey);
             var userId = decryptURL.Split('/')[0];
-            if(userId!= null && userId==decryptURL)
+            if(userId!= null)
             {
                 return Json("Decrypt Successfully");
             }

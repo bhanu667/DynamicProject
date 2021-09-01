@@ -1,0 +1,111 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
+    <link href="~/css/combo.css" rel="stylesheet" />
+    <style>
+        body {
+        }
+
+        .container {
+            margin: 150px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card-header">
+            <label>Select Role</label><br />
+            @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RolesList, "Select")
+            <button id="btnSave" class="btn btn-primary fa-pull-right">Save</button>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Multi Selection</h3>
+                <input type="text" id="justAnInputBox4" placeholder="Select" autocomplete="off" />
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="~/js/comboTreePlugin.js"></script>
+
+    <script type="text/javascript">
+        var comboTrees;
+        var myData1 =@Html.Raw(ViewBag.Json);
+        var menuPermission = "@Html.Raw(ViewBag.Per)";
+        var perArray = [];
+        debugger;
+        $(document).ready(function () {
+            $("#RoleId").on("change", function () {
+                var selectedId = $(this).val();
+                window.location.href = '@Url.Action("TreeViewFinal1", "Test")' + '?RoleId=' + selectedId;
+            });
+
+            if (menuPermission !== undefined) {
+                menuPermission = menuPermission.trim();
+            }
+            if (menuPermission !== '') {
+                perArray = menuPermission.split(',');
+            }
+
+            for (var i = 0; i < perArray.length; i++) {
+                perArray[i] = perArray[i].toString();
+            }
+
+            if (perArray.length > 0) {
+                console.log(perArray)
+                window.comboTrees = $('#justAnInputBox4').comboTree({
+                    source: myData1,
+                    isMultiple: true,
+                    cascadeSelect: false,
+                    selected: perArray
+                });
+            }
+            else {
+                window.comboTrees = $('#justAnInputBox4').comboTree({
+                    source: myData1,
+                    isMultiple: true,
+                    cascadeSelect: false
+                });
+            }
+            $("#btnSave").on('click', function (e) {
+                var RoleId = $('#RoleId').val();
+                var arr = [];
+
+                $('input[type=checkbox]:checked').each(function () {
+                    var selectedIds = $(this).parents('span').attr('data-id');
+                    requestData = {
+                        MenuId: selectedIds,
+                        RoleId: RoleId
+                    }
+                    arr.push(requestData);
+                });
+
+                $.ajax({
+                    url: '/Test/UpdatePermission',
+                    type: 'POST',
+                    data: JSON.stringify(arr),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function (xhr) {
+                        alert('Error: ' + xhr.statusText);
+                    },
+                    success: function (result) {
+                        alert(result);
+                    },
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

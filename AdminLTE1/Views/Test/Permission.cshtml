@@ -1,0 +1,96 @@
+﻿@model IEnumerable<AdminLTE1.ViewModels.PermissionViewModel>
+@{
+    ViewBag.Title = "Menu Permission";
+    Layout = null;
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <label>Select Role</label><br />
+            @Html.DropDownList("RoleId", (IEnumerable<SelectListItem>)ViewBag.RolesList, "Select")
+            <button id="btnSave" class="btn btn-primary fa-pull-right">Save</button>
+        </div>
+    </div>
+</div>
+
+<input type="text" id="example" placeholder="Select">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://www.jqueryscript.net/demo/Drop-Down-Combo-Tree/comboTreePlugin.js?v2"></script>
+<script src="icontains.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#RoleId").on("change", function () {
+            var selectedId = $(this).val();
+            window.location.href = '@Url.Action("Permission", "Test")' + '?RoleId=' + selectedId;
+        });
+
+        var myData = [
+            {
+                id: 0,
+                title: 'Item 1 '
+            }, {
+                id: 1,
+                title: 'Item 2',
+                subs: [
+                    {
+                        id: 10,
+                        title: 'Item 2-1'
+                    }, {
+                        id: 11,
+                        title: 'Item 2-2'
+                    }, {
+                        id: 12,
+                        title: 'Item 2-3'
+                    }
+                ]
+            }, {
+                id: 2,
+                title: 'Item 3'
+            },
+            // more data here
+        ];
+
+
+        debugger;
+        $('#example').comboTree({
+            source: myData
+        });
+        $('#example').comboTree({
+            source: myData,
+            isMultiple: true
+        });
+        $('#example').comboTree({
+            source: myData,
+            selected: ['0']
+        });
+        $('#example').comboTree({
+            source: myData,
+            cascadeSelect: true
+        });
+        $('#example').comboTree({
+            source: myData,
+            collapse: true
+        });
+        $('#example').comboTree({
+            source: myData,
+            selectableLastNode: true
+        });
+        var instance = $('#example').comboTree({
+            source: myData
+        });
+
+        //instance.getSelectedNames();
+        //instance.getSelectedIds();
+        //// set source
+        //instance.setSource(source);
+
+        //// clear selection
+        //instance.clearSelection();
+
+        //// set selection
+        //instance.setSelection(selectionIdList):
+        //instance.destroy();
+    });
+</script>

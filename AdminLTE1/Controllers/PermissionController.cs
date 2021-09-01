@@ -422,10 +422,8 @@ namespace AdminLTE1.Controllers
         [HttpPost]
         public JsonResult UpdatePermission([FromBody]UpdatePermissionViewModel[] model)
         {
-
             if (model != null)
             {
-
                 int count = 0;
                 foreach (var item in model)
                 {
@@ -445,15 +443,11 @@ namespace AdminLTE1.Controllers
                     mnp.RoleId = item.RoleId;
                     _context.MenuPermissions.Add(mnp);
                 }
-
                 _context.SaveChanges();
 
                 return Json("Saved Successfully!");
             }
             return Json("NoData");
-        }
-
-
-       
+        }       
     }
 }
