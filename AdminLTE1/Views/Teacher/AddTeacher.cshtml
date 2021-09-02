@@ -1,0 +1,44 @@
+﻿@model AdminLTE1.Models.Teachers
+@{
+    ViewBag.Title = "Add Teacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<environment include="Development">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Add Teacher</h3>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="TeacherName"></label>
+                        <input asp-for="TeacherName" class="form-control" placeholder="Name">
+                        <span asp-validation-for="TeacherName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Subject"></label>
+                        <input asp-for="Subject" class="form-control" placeholder="Subject">
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ClassId"></label>
+                        <input asp-for="ClassId" class="form-control" placeholder="ClassId">
+                        <span asp-validation-for="ClassId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TeacherImageFile"></label>
+                        <input asp-for="TeacherImageFile" class="form-control" type="file" />
+                        <span asp-validation-for="TeacherImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+ </div>

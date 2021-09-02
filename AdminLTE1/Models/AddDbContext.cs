@@ -28,5 +28,8 @@ namespace AdminLTE1.Models
         public DbSet<SurveyUrl> SurveyUrl { get; set; }
         public DbSet<StateData> StateData { get; set; }
         public DbSet<CityData> CityData { get; set; }
+        public DbSet<Teachers> Teachers { get; set; }
+        public DbSet<Books> Books { get; set; }
+        public DbSet<Course> Course { get; set; }
     }
 }

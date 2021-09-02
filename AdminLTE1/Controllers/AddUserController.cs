@@ -48,9 +48,17 @@ namespace AdminLTE1.Controllers
                     ProfilePicture = model.ProfilePicture
                 };
 
+
                 if (model.ProfilePictureFile != null)
                 {
-                   
+                    //var paths = Path.Combine(_hostEnvironment.WebRootPath, "Upload",model.ProfilePicture);
+
+                    //if (System.IO.File.Exists(paths))
+                    //{
+                    //    // If file found, delete it    
+                    //    System.IO.File.Delete(Path.Combine(paths));
+                    //}
+
                     string wwwRootPath = _hostEnvironment.WebRootPath;
                     string fileName = Path.GetFileNameWithoutExtension(model.ProfilePictureFile.FileName);
                     string extension = Path.GetExtension(model.ProfilePictureFile.FileName);
@@ -62,7 +70,6 @@ namespace AdminLTE1.Controllers
                     model.ProfilePictureFile.CopyTo(fileStream);
                     await _userManager.UpdateAsync(user);
                 }
-            
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -76,5 +83,4 @@ namespace AdminLTE1.Controllers
                 return View(model);
         }
     }
-
-    }
+}

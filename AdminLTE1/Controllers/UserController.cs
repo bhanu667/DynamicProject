@@ -114,13 +114,13 @@ namespace AdminLTE1.Controllers
 
                 if (model.ProfilePictureFile != null)
                 {
-                    var paths = Path.Combine(_hostEnvironment.WebRootPath, "Upload",model.ProfilePicture);
+                    //var paths = Path.Combine(_hostEnvironment.WebRootPath, "Upload",model.ProfilePicture);
 
-                    if (System.IO.File.Exists(paths))
-                    {
-                        // If file found, delete it    
-                        System.IO.File.Delete(Path.Combine(paths));
-                    }
+                    //if (System.IO.File.Exists(paths))
+                    //{
+                    //    // If file found, delete it    
+                    //    System.IO.File.Delete(Path.Combine(paths));
+                    //}
 
 
                     string wwwRootPath = _hostEnvironment.WebRootPath;
@@ -128,15 +128,10 @@ namespace AdminLTE1.Controllers
                     string extension = Path.GetExtension(model.ProfilePictureFile.FileName);
                     user.ProfilePicture = DateTime.Now.ToString("yymmssfff") + extension;
 
-
                     string path = Path.Combine(wwwRootPath, "Upload", user.ProfilePicture);
                     var fileStream = new FileStream(path, FileMode.Create);
                     model.ProfilePictureFile.CopyTo(fileStream);
-                    await _userManager.UpdateAsync(user);
-
-                   
-
-
+                    await _userManager.UpdateAsync(user);              
                 }
             }
             //}

@@ -82,7 +82,6 @@ namespace AdminLTE1.Controllers
             }
             
         }
-
         public IActionResult Desc()
         {
             var sentDate = _context.SurveyUrl.ToList();

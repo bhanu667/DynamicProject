@@ -1,0 +1,65 @@
+﻿@model AdminLTE1.Models.Books
+@{
+    ViewData["Title"] = "AddBooks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/ckeditor/ckeditor.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<environment include="Development">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">AddBooks</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookName"></label>
+                    <input asp-for="BookName" class="form-control" placeholder="Name">
+                    <span asp-validation-for="BookName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Author"></label>
+                    <input asp-for="Author" class="form-control" placeholder="Path">
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClassId"></label>
+                    <input asp-for="ClassId" class="form-control" placeholder="ParentId">
+                    <span asp-validation-for="ClassId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsActive"></label>
+                    <input asp-for="IsActive" class="form-control" placeholder="IsActive">
+                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea id="Description" class="ckeditor" name="Description" rows="200"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookImageFile"></label>
+                    <input asp-for="BookImageFile" class="form-control" type="file" />
+                    <span asp-validation-for="BookImageFile" class="text-danger"></span>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a asp-action="AddBook" asp-controller="Book"
+                       class="btn btn-primary" style="width:auto">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

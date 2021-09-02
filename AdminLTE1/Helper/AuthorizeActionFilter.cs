@@ -44,7 +44,6 @@ namespace AdminLTE1.Helper
                               Path = menuItems.Path,
                           }).ToList();
 
-
             foreach (var item in result)
             {
                 var resultpath = item.Path.Split("/");
@@ -57,12 +56,9 @@ namespace AdminLTE1.Helper
                 {
                     return;
                 }
-
             }
-
             context.Result = new RedirectResult("~/Home/AccessDenied");
             return;
         }
-
     }
 }

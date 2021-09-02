@@ -20,6 +20,10 @@ namespace AdminLTE1.Controllers
         {
             return View();
         }
+        public IActionResult Index1()
+        {
+            return View();
+        }
 
         public IActionResult Paypal()
         {
@@ -45,6 +49,20 @@ namespace AdminLTE1.Controllers
                 return Json(true, new JsonSerializerSettings());
             }
         }
+
+        //public JsonResult IsBookNameExist(string bookName, int? bookId)
+        //{
+        //    var validateName = _context.Books.FirstOrDefault
+        //                        (x => x.BookName == bookName && x.BookId != bookId);
+        //    if (validateName != null)
+        //    {
+        //        return Json(false, new JsonSerializerSettings());
+        //    }
+        //    else
+        //    {
+        //        return Json(true, new JsonSerializerSettings());
+        //    }
+        //}
 
 
         public JsonResult IsPageUrlExist(string pageUrl, int? Id)
